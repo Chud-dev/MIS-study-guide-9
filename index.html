@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MIS 301 — Software as a Service Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --orange:#BF5700;--orange-dk:#8B3E00;--cream:#FDF8F2;--dark:#1A1208;
+    --gold:#FFB347;--gold-lt:#FFD280;--tan:#F0E6D3;--border:#D9C9B0;
+    --green:#2D7A4F;--red:#B83232;--green-bg:#E8F5EE;--red-bg:#FBE9E9;
+    --text:#2C1A0A;--muted:#7A6550;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+  header{background:var(--orange);position:relative;overflow:hidden}
+  header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(0,0,0,.06) 18px,rgba(0,0,0,.06) 19px)}
+  .header-inner{position:relative;max-width:960px;margin:0 auto;padding:36px 24px 32px}
+  .badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:600;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:4px;margin-bottom:14px}
+  header h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,6vw,4rem);color:#fff;letter-spacing:.04em;line-height:1;margin-bottom:8px}
+  header p.sub{color:rgba(255,255,255,.78);font-size:.95rem}
+  .longhorn-accent{position:absolute;right:24px;top:50%;transform:translateY(-50%);font-size:5rem;opacity:.12;user-select:none;pointer-events:none}
+  .tab-bar{background:var(--dark);display:flex;max-width:960px;margin:0 auto;border-bottom:3px solid var(--orange)}
+  .tab-btn{flex:1;padding:14px 20px;background:transparent;border:none;color:rgba(255,255,255,.55);font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;letter-spacing:.03em;cursor:pointer;transition:all .2s;border-bottom:3px solid transparent;margin-bottom:-3px}
+  .tab-btn:hover{color:var(--gold-lt)}
+  .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+  .container{max-width:960px;margin:0 auto;padding:32px 20px 60px}
+  .search-wrap{margin-bottom:28px;position:relative}
+  .search-wrap input{width:100%;padding:13px 18px 13px 44px;border:2px solid var(--border);border-radius:10px;background:#fff;font-family:'DM Sans',sans-serif;font-size:.95rem;color:var(--text);transition:border-color .2s;outline:none}
+  .search-wrap input:focus{border-color:var(--orange)}
+  .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:1rem;pointer-events:none}
+  #vocab-count{font-size:.82rem;color:var(--muted);margin-top:8px;font-weight:500}
+  #vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:20px}
+  @media(max-width:600px){#vocab-grid{grid-template-columns:1fr}}
+  .vocab-card{background:#fff;border-radius:12px;border:1px solid var(--border);overflow:hidden;box-shadow:0 2px 8px rgba(26,18,8,.06);transition:transform .18s,box-shadow .18s}
+  .vocab-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(191,87,0,.13)}
+  .card-head{background:var(--dark);padding:14px 18px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .card-term{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;color:var(--gold);letter-spacing:.04em;line-height:1.1}
+  .cat-tag{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+  .cat-core{background:rgba(191,87,0,.25);color:#FFC87A}
+  .cat-cloud{background:rgba(100,180,255,.18);color:#90CAFF}
+  .cat-biz{background:rgba(200,100,200,.18);color:#D99DD9}
+  .cat-risk{background:rgba(220,80,80,.18);color:#FF9A9A}
+  .cat-tco{background:rgba(100,220,150,.18);color:#7CDBA2}
+  .card-body{padding:16px 18px}
+  .def-label{font-size:.67rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:4px}
+  .def-text{font-size:.88rem;line-height:1.55;color:var(--text);margin-bottom:12px}
+  .example-block{background:var(--tan);border-left:3px solid var(--orange);border-radius:0 6px 6px 0;padding:10px 13px;margin-top:4px}
+  .example-block .def-label{color:var(--orange-dk)}
+  .example-block .def-text{color:var(--dark);margin-bottom:0;font-style:italic}
+  .quiz-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+  .score-box{background:var(--dark);border-radius:10px;padding:10px 22px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.08em}
+  .score-box span{color:var(--gold)}
+  .reset-btn{background:var(--orange);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.88rem;cursor:pointer;transition:background .18s,transform .12s}
+  .reset-btn:hover{background:var(--orange-dk);transform:scale(1.03)}
+  .progress-bar{height:7px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:30px}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--gold));border-radius:99px;transition:width .4s ease}
+  .question-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:26px 26px 22px;margin-bottom:24px;box-shadow:0 2px 8px rgba(26,18,8,.05)}
+  .q-num{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+  .q-scenario{font-size:.93rem;line-height:1.7;color:var(--text);margin-bottom:18px;padding:14px 16px;background:var(--tan);border-radius:8px;border-left:4px solid var(--orange)}
+  .q-stem{font-size:.95rem;font-weight:600;color:var(--dark);margin-bottom:14px;line-height:1.5}
+  .options{display:flex;flex-direction:column;gap:10px}
+  .opt-btn{background:var(--tan);border:2px solid var(--border);border-radius:9px;padding:12px 16px;text-align:left;font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--text);cursor:pointer;transition:all .18s;line-height:1.45}
+  .opt-btn:hover:not(:disabled){border-color:var(--orange);background:#fff;box-shadow:0 2px 8px rgba(191,87,0,.12)}
+  .opt-btn .opt-letter{display:inline-block;font-weight:700;color:var(--orange);margin-right:6px}
+  .opt-btn.correct{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:600}
+  .opt-btn.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+  .opt-btn:disabled{cursor:default}
+  .explanation{margin-top:18px;background:#FFFBF4;border:1px solid var(--gold);border-radius:10px;padding:16px 18px;font-size:.88rem;line-height:1.6;color:var(--dark);animation:fadeUp .3s ease}
+  .explanation strong{color:var(--orange-dk)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .tab-panel{display:none}
+  .tab-panel.active{display:block}
+  .no-results{text-align:center;padding:60px 20px;color:var(--muted);font-size:1rem}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="badge">MIS 301 · McCombs School of Business · UT Austin</div>
+    <h1>Software as a Service (SaaS)</h1>
+    <p class="sub">Vocabulary Study Guide &amp; Practice Quiz &nbsp;·&nbsp; Chapter 9</p>
+  </div>
+  <div class="longhorn-accent">🤘</div>
+</header>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('vocab',this)">📖&nbsp; Vocab Terms</button>
+  <button class="tab-btn" onclick="switchTab('quiz',this)">📝&nbsp; Practice Quiz</button>
+</div>
+<div class="container">
+  <div id="tab-vocab" class="tab-panel active">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Search terms, definitions, examples…" oninput="filterCards()"/>
+    </div>
+    <div id="vocab-count"></div>
+    <div id="vocab-grid"></div>
+  </div>
+  <div id="tab-quiz" class="tab-panel">
+    <div class="quiz-header">
+      <div class="score-box">SCORE &nbsp;<span id="score-display">0</span> / 5</div>
+      <button class="reset-btn" onclick="resetQuiz()">↺ &nbsp;Retake Quiz</button>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div id="quiz-container"></div>
+  </div>
+</div>
+<script>
+const terms = [
+  {
+    term:"Cloud Computing",cat:"cloud",catLabel:"Cloud",
+    exact:"The delivery of computing services — including servers, storage, databases, networking, software, and analytics — over the internet ('the cloud'), allowing companies to avoid owning and operating physical data centers and instead rent computing resources on demand.",
+    simple:"Using someone else's computers over the internet instead of owning your own servers. Like renting electricity instead of building your own power plant.",
+    example:"Netflix doesn't own the servers that stream your shows — it runs almost entirely on Amazon Web Services (AWS). When more people watch at night, Netflix automatically scales up rented servers and scales down in the morning."
+  },
+  {
+    term:"SaaS (Software as a Service)",cat:"core",catLabel:"Core Concept",
+    exact:"A cloud computing model in which software is hosted on remote servers managed by a vendor and accessed by users via a web browser on a subscription basis, rather than being installed locally on each device.",
+    simple:"Paying a monthly fee to use software through your browser instead of downloading it. The software runs on the company's servers, not yours.",
+    example:"Google Sheets, Salesforce, Canvas, and Microsoft 365 (online) are all SaaS. You don't install them — you log in through a browser. UT has a SaaS contract with Microsoft for Office and Copilot."
+  },
+  {
+    term:"IaaS (Infrastructure as a Service)",cat:"cloud",catLabel:"Cloud",
+    exact:"A cloud service model in which a provider supplies virtualized computing infrastructure (servers, storage, networking, hardware) over the internet. The customer manages the OS, databases, middleware, and applications, but outsources the physical hardware layer.",
+    simple:"Renting the physical servers and data center from a cloud company, but still managing your own software and databases yourself.",
+    example:"Netflix and Walmart both use IaaS — they rent AWS and Microsoft Azure hardware respectively, but their own engineering teams manage the software running on top of it."
+  },
+  {
+    term:"PaaS (Platform as a Service)",cat:"cloud",catLabel:"Cloud",
+    exact:"A cloud service model in which a provider supplies a managed platform — including hardware, OS, database, and middleware — leaving the customer responsible only for developing and managing their own applications at the top of the stack.",
+    simple:"Renting everything except the apps themselves — the provider handles the servers, OS, and databases; you just write and deploy your software on top.",
+    example:"Salesforce relies on PaaS so its enterprise customers can build custom apps connected to Salesforce data without managing any underlying infrastructure."
+  },
+  {
+    term:"On-Premise (Traditional) Software",cat:"core",catLabel:"Core Concept",
+    exact:"Software that is installed and run on computers physically located within an organization's own facilities, requiring the company to manage its own hardware, OS, database, middleware, and applications.",
+    simple:"The old way: buying software, installing it on your own computers, and managing everything yourself — including when things break at 2 AM.",
+    example:"A company running SAP ERP on their own data center servers — they bought the license, installed it on their hardware, and their IT team maintains it. High upfront cost but full control."
+  },
+  {
+    term:"Freemium Pricing Model",cat:"biz",catLabel:"Business Model",
+    exact:"A SaaS pricing strategy in which a basic version of the product is offered free of charge, while advanced features, higher usage limits, or premium tiers require a paid subscription. Designed to acquire users at low cost and convert a percentage to paying customers.",
+    simple:"Give away the basic version for free to get people hooked, then charge for the good stuff.",
+    example:"Spotify: free tier with ads and shuffle-only, premium tier removes ads and adds downloads. Dropbox: free 2GB storage, paid plans for more space. Zoom: free for 40-minute meetings, paid for longer."
+  },
+  {
+    term:"Usage-Based Pricing",cat:"biz",catLabel:"Business Model",
+    exact:"A SaaS billing model in which customers are charged based on their actual consumption of the service — such as number of users, API calls, data stored, or compute hours — rather than a flat subscription fee.",
+    simple:"Pay only for what you actually use, like a phone plan that charges per GB of data used.",
+    example:"AWS charges by the hour for compute and by the GB for storage. A small startup pays almost nothing; Netflix pays millions because they use enormous amounts of compute."
+  },
+  {
+    term:"Total Cost of Ownership (TCO)",cat:"tco",catLabel:"TCO",
+    exact:"The complete financial cost of acquiring, deploying, operating, and maintaining a technology system over its entire lifecycle. TCO includes not just the purchase price (~20%) but hidden costs like training, integration, support, efficiency loss during transition, and future upgrades (~80%).",
+    simple:"The real total cost of a technology decision — not just the sticker price, but every dollar spent to keep it running over its whole life.",
+    example:"A company might pay $500K for enterprise software licenses, but TCO over 5 years could be $2.5M once you add implementation consultants (Accenture/IBM), training, ongoing support, and the eventual system upgrade."
+  },
+  {
+    term:"TCO Components",cat:"tco",catLabel:"TCO",
+    exact:"The full components of TCO include: (1) requirements analysis & site prep, (2) software purchase & license support, (3) implementation & deployment costs including training and initial efficiency reduction, (4) ongoing operational support, (5) strategic development costs as the competitive landscape evolves.",
+    simple:"All the hidden costs of software: setup, training, the period where everyone is slow while learning, ongoing maintenance, and future upgrades as things change.",
+    example:"When UT adopts a new LMS, TCO includes: evaluating options, licensing fees, migrating old course content, training 3,000 faculty, the semester where grades are accidentally lost (efficiency reduction), and annual support."
+  },
+  {
+    term:"Latency",cat:"risk",catLabel:"SaaS Risk",
+    exact:"The delay between a user's action (sending a request) and receiving a response, caused by data traveling across networks. In SaaS, latency increases as data must travel from the user's device → through WiFi → to a remote server → and back, making performance slower than locally-executed software.",
+    simple:"The lag time between clicking something and seeing it happen. When your software lives on a server far away, more network travel = more delay.",
+    example:"When UT students use online Excel (SaaS) and upload a file stored in UT Box to Canvas, the file travels from Box servers → browser → Canvas servers — all that network travel can cause the file to appear blank if the upload times out."
+  },
+  {
+    term:"Vendor Lock-In",cat:"risk",catLabel:"SaaS Risk",
+    exact:"A situation where a customer becomes so dependent on a single vendor's platform, data formats, or ecosystem that switching to an alternative becomes prohibitively expensive or technically difficult, often resulting in unforeseen switching costs.",
+    simple:"Getting stuck with one company because leaving would be too painful or expensive — they have all your data in their format and you're dependent on their ecosystem.",
+    example:"A company that builds all its custom apps inside Salesforce's platform is locked in — if Salesforce doubles its prices, migrating 10 years of data and rebuilt workflows to a competitor would cost millions."
+  },
+  {
+    term:"Switching Costs",cat:"risk",catLabel:"SaaS Risk",
+    exact:"The costs — financial, operational, and time-based — a company incurs when migrating from one software platform to another, including data migration, retraining, workflow redesign, and integration re-engineering.",
+    simple:"The pain and expense of changing from one software to another — transferring data, retraining everyone, and rebuilding all your customizations.",
+    example:"When a university switches from one LMS to another, switching costs include: migrating 50,000 course files, retraining 3,000 faculty, rebuilding integrations with Canvas, and the lost productivity semester."
+  },
+  {
+    term:"Economies of Scale",cat:"cloud",catLabel:"Cloud",
+    exact:"The cost advantages that arise when a provider can spread fixed infrastructure costs (data centers, hardware, cooling, security) across millions of customers, making per-unit costs far lower than any single company could achieve by building their own infrastructure.",
+    simple:"Big cloud providers can offer cheap computing because they serve millions of customers from the same massive data centers — individual companies could never match that price building their own.",
+    example:"AWS has data centers with millions of servers serving customers worldwide. The cost per server is a fraction of what any single company could achieve. That's why even large companies like Netflix choose to rent rather than own."
+  },
+  {
+    term:"Scalability",cat:"cloud",catLabel:"Cloud",
+    exact:"The ability of a cloud-based system to automatically increase or decrease computing resources in response to demand, without requiring the customer to purchase, configure, or manage additional physical hardware.",
+    simple:"The ability to instantly grow or shrink your computing power as needed — like having a magic warehouse that expands when you need more space and shrinks when you don't.",
+    example:"During tax season, TurboTax Online (SaaS) handles 10x normal traffic. Rather than owning servers that sit idle 11 months a year, it automatically scales up rented cloud capacity in April and scales back down in May."
+  },
+  {
+    term:"Software Piracy (and SaaS Prevention)",cat:"biz",catLabel:"Business Model",
+    exact:"The unauthorized copying, distribution, or use of commercial software without a valid license. SaaS effectively eliminates piracy risk because the software never exists as a downloadable file on user devices — it runs entirely on the vendor's servers and requires authenticated login.",
+    simple:"Illegally copying software. SaaS makes this nearly impossible because you're accessing a service that requires login, not downloading a file you could copy.",
+    example:"You could pirate the traditional desktop version of Photoshop by copying its installer. You cannot pirate Adobe Creative Cloud (SaaS) — there's nothing to copy; you log in to their servers. This is why Adobe switched to subscription-only."
+  },
+  {
+    term:"Mission-Critical Systems",cat:"risk",catLabel:"SaaS Risk",
+    exact:"Information systems whose failure would cause immediate and severe harm to an organization's operations, revenue, safety, or legal compliance. These require the highest levels of reliability and are approached with special caution in cloud migration decisions.",
+    simple:"Systems so important that if they go down, the business stops working or people get hurt — like a hospital's patient records system or an airline's booking system.",
+    example:"A hospital's patient record system is mission-critical. Moving it to a cloud vendor that has an outage means doctors can't access medication histories. The slide warns: 'If a cloud vendor fails you and all your eggs are in one basket, then you're down, too.'"
+  },
+  {
+    term:"SaaS vs. Licensed Software (TCO Comparison)",cat:"tco",catLabel:"TCO",
+    exact:"A comparison showing that Traditional/Licensed software has very high upfront implementation costs (system purchase + deployment) but lower ongoing costs, while SaaS has low upfront costs but constant recurring subscription fees. SaaS wins on most TCO factors except software license support, where perpetual licenses can be cheaper long-term.",
+    simple:"Old-school software costs a lot to start and less over time. SaaS is cheap to start but you pay forever. SaaS usually wins overall because those huge upfront costs are brutal.",
+    example:"Buying enterprise CRM software: $2M upfront + $500K/year support = $4.5M over 5 years. Salesforce SaaS: $0 upfront + $1M/year = $5M over 5 years. But SaaS wins on deployment speed and requires no IT staff to maintain servers."
+  },
+  {
+    term:"Ping (Network Diagnostics)",cat:"cloud",catLabel:"Cloud",
+    exact:"A network diagnostic command that sends a small packet of data to a specified IP address or domain and measures the round-trip time (latency) for the response. Used to determine where servers are physically located and how far data travels.",
+    simple:"A tool that checks how fast your computer can reach another computer — like shouting 'Hello!' across a room and timing how long it takes to hear 'Hello!' back.",
+    example:"Running 'ping utexas.edu' from a UT classroom shows the server is nearby (low ms response). Running 'ping utexas.instructure.com' (Canvas) shows a much higher ms response because Canvas runs on AWS servers in a different state."
+  },
+];
+
+const questions = [
+  {
+    num:1,
+    scenario:"You're helping your roommate choose between two options for her new photography side business. Option A is Adobe Lightroom (desktop) — a one-time $150 purchase that installs on her laptop. Option B is Adobe Creative Cloud — $54.99/month, runs in her browser or as a thin client, stores files in Adobe's cloud, and automatically updates. She asks you which is SaaS.",
+    stem:"Which option is SaaS, and what is the defining characteristic that makes it so?",
+    options:[
+      {letter:"A",text:"Option A (desktop Lightroom), because it uses closed source code and runs with a single license."},
+      {letter:"B",text:"Option B (Creative Cloud), because the software is hosted on Adobe's remote servers and accessed via subscription rather than installed locally as a standalone executable."},
+      {letter:"C",text:"Both options are SaaS because they are both made by Adobe and sold directly to consumers."},
+      {letter:"D",text:"Option B (Creative Cloud), because it uses open standards that allow other companies to build compatible editing plugins."},
+    ],
+    correct:"B",
+    explanation:`<strong>✅ Correct Answer: B.</strong> The defining characteristics of SaaS are (1) hosted on vendor's remote servers, (2) accessed via browser/network, and (3) subscription-based billing. Creative Cloud checks all three. Desktop Lightroom is locally executed, traditionally licensed software — the opposite of SaaS.<br><br>
+<strong>Why the others are wrong:</strong><br>
+<strong>A</strong> — Closed source code and single licensing describe traditional proprietary software, not SaaS. Running locally is the opposite of SaaS.<br>
+<strong>C</strong> — Both being made by the same company is irrelevant. SaaS is defined by delivery model and execution location, not vendor identity.<br>
+<strong>D</strong> — Open standards refers to whether other companies can build compatible software without permission. While Creative Cloud does use open standards, this is NOT what defines it as SaaS.`
+  },
+  {
+    num:2,
+    scenario:"Your friend is a junior product manager at a startup that built a new B2B analytics dashboard. Their current pricing model charges every customer a flat $200/month regardless of usage. Several small customers have complained it's too expensive for them, while their biggest enterprise client — who runs 500 reports per day — says it's the cheapest software they've ever bought. The CEO wants to fix this.",
+    stem:"Which pricing model would MOST effectively align cost with the value each customer receives?",
+    options:[
+      {letter:"A",text:"Freemium pricing, which gives the core product away for free and charges only for advanced AI features."},
+      {letter:"B",text:"Usage-based pricing, where customers are billed based on the number of reports run or data processed, so small customers pay little and heavy users pay more."},
+      {letter:"C",text:"On-premise licensing, where customers pay a one-time fee to own and install the software on their own servers."},
+      {letter:"D",text:"Open-source licensing, which lets customers modify the code for free and pay only for optional support contracts."},
+    ],
+    correct:"B",
+    explanation:`<strong>✅ Correct Answer: B — Usage-based pricing.</strong> The slides describe usage-based pricing as billing based on actual consumption. Small customers who run 5 reports/month pay almost nothing; the enterprise running 500/day pays significantly more. This directly aligns price with delivered value and solves both complaints simultaneously.<br><br>
+<strong>Why the others are wrong:</strong><br>
+<strong>A (Freemium)</strong> — Freemium gives away the basic product to attract users and charges for premium features. It doesn't solve the "heavy user pays the same as light user" mismatch — the enterprise client would still get a bargain.<br>
+<strong>C (On-premise)</strong> — This is the opposite direction — moving to traditional software distribution. It shifts all infrastructure burden to the customer, which is worse for both parties.<br>
+<strong>D (Open-source)</strong> — Open-source licensing is about source code accessibility, not a pricing strategy for a SaaS product.`
+  },
+  {
+    num:3,
+    scenario:"Your cousin manages IT for a mid-size regional hospital in Austin. The hospital's CFO wants to move their patient records system, billing software, and radiology imaging system all to a SaaS provider by next quarter to cut costs. Your cousin is nervous and asks for your MIS 301 perspective.",
+    stem:"Which concern BEST explains why your cousin should advise the CFO to proceed cautiously?",
+    options:[
+      {letter:"A",text:"SaaS providers use open standards, which means competitors could access the hospital's patient data without permission."},
+      {letter:"B",text:"The hospital will experience significantly higher upfront implementation costs with SaaS compared to traditional on-premise software."},
+      {letter:"C",text:"Moving mission-critical systems to a single cloud vendor creates dangerous dependency — a vendor outage could prevent doctors from accessing patient records, and data stored off-site raises legal and regulatory compliance concerns."},
+      {letter:"D",text:"SaaS software always has fewer features than desktop software, so radiology imaging tools in the cloud will be technically inferior."},
+    ],
+    correct:"C",
+    explanation:`<strong>✅ Correct Answer: C — Mission-Critical Systems + Vendor Risk.</strong> The slides state: "If a cloud vendor fails you and all your eggs are in one basket, then you're down, too." For a hospital, downtime means doctors can't access patient medication histories — a life-safety issue. Additionally, HIPAA compliance requires strict control over where patient data is stored, making the off-site security concern real and legally significant.<br><br>
+<strong>Why the others are wrong:</strong><br>
+<strong>A</strong> — Open standards allow other companies to build compatible software, not to access a hospital's private data. This confuses open standards with a data security breach scenario.<br>
+<strong>B</strong> — This is backwards. SaaS is specifically noted for having low upfront implementation costs compared to traditional on-premise deployments. High upfront costs are a characteristic of traditional licensed software.<br>
+<strong>D</strong> — While SaaS products sometimes lack specific features (the slides note online Excel missing Scenario Manager), "always inferior" is an overstatement. Modern SaaS tools are often feature-complete, and this isn't the primary concern for a hospital's decision.`
+  },
+  {
+    num:4,
+    scenario:"A UT student who works part-time at a small Austin restaurant chain notices the owner is considering switching from their current point-of-sale system (locally installed, paid a $15,000 one-time license) to Toast, a SaaS restaurant POS that costs $165/month. The owner asks the student to evaluate the 5-year total cost comparison. The student knows Toast requires no hardware installation fees and the current system cost $8,000 to implement and requires $2,000/year in IT support.",
+    stem:"Based on the TCO framework from the slides, which statement MOST accurately reflects the full cost comparison?",
+    options:[
+      {letter:"A",text:"The current system is clearly cheaper because $15,000 is less than Toast's 5-year total of $9,900."},
+      {letter:"B",text:"Toast (SaaS) has higher TCO because its ongoing subscription fees never stop, while the current system is fully paid off."},
+      {letter:"C",text:"A complete TCO comparison must include the current system's implementation costs, ongoing IT support, and future upgrade costs — not just the license price — making the full comparison much closer or potentially favorable to Toast."},
+      {letter:"D",text:"The current system wins because SaaS providers can raise prices or go out of business, which are fixed costs the owner must account for."},
+    ],
+    correct:"C",
+    explanation:`<strong>✅ Correct Answer: C — Full TCO Framework.</strong> The slides explicitly show that purchase price represents only ~20% of TCO, while hidden costs (support, fixes, integration, training, upgrades) represent ~80%. Current system 5-year TCO: $15,000 license + $8,000 implementation + $10,000 IT support (5 years) + future upgrade = ~$33,000+. Toast 5-year TCO: $9,900 subscription + minimal implementation = ~$10,000-12,000. Toast likely wins substantially on full TCO.<br><br>
+<strong>Why the others are wrong:</strong><br>
+<strong>A</strong> — This only compares the license price to the subscription cost — exactly the mistake the TCO framework warns against. It ignores 80% of the real costs.<br>
+<strong>B</strong> — While perpetual licenses can be cheaper long-term, the slides show SaaS wins on most TCO factors except "software purchase and license support." Ignoring implementation and ongoing support understates the current system's true cost.<br>
+<strong>D</strong> — Price increases and vendor viability ARE legitimate SaaS risks discussed in the slides, but they represent uncertainty about future costs, not a fixed cost advantage for the current system.`
+  },
+  {
+    num:5,
+    scenario:"During your internship at a fintech startup, your manager is debating which cloud model to use for the company's new transaction processing platform. The dev team needs to run custom Java microservices and a PostgreSQL database, but doesn't want to manage physical servers, OS patching, or network configuration. The CTO says they need maximum control over their application code but no infrastructure headaches.",
+    stem:"Which cloud service model BEST fits the CTO's requirements?",
+    options:[
+      {letter:"A",text:"SaaS, because the dev team can access transaction processing software through a browser subscription without managing any code."},
+      {letter:"B",text:"PaaS, because the provider manages hardware, OS, and middleware, leaving the team responsible only for developing and deploying their own applications."},
+      {letter:"C",text:"IaaS, because the team gets complete control over the entire stack including OS configuration and network topology."},
+      {letter:"D",text:"On-premise, because fintech companies with custom Java code require physical servers they own and control."},
+    ],
+    correct:"B",
+    explanation:`<strong>✅ Correct Answer: B — PaaS.</strong> The slides describe PaaS as the model where "companies often rent all but the top level of the stack and just manage their own apps." The CTO wants: no physical servers ✓, no OS management ✓, no network config ✓, but full control over Java microservices and PostgreSQL apps ✓. PaaS handles everything below the application layer while giving the dev team full control of their code. Salesforce's model is the exact example given.<br><br>
+<strong>Why the others are wrong:</strong><br>
+<strong>A (SaaS)</strong> — With SaaS, the vendor manages everything including the software. The dev team wouldn't be writing custom Java microservices — they'd be using the vendor's pre-built software. SaaS is for end users, not developers building custom apps.<br>
+<strong>C (IaaS)</strong> — IaaS gives control over OS and networking, which the CTO explicitly said they don't want to manage. IaaS is like renting a bare metal server — you still configure the OS, install Java, configure PostgreSQL yourself.<br>
+<strong>D (On-premise)</strong> — This is exactly what the CTO wants to avoid: owning and managing physical servers. Fintech companies widely use cloud computing.`
+  },
+];
+
+const catMap={core:'cat-core',cloud:'cat-cloud',biz:'cat-biz',risk:'cat-risk',tco:'cat-tco'};
+function renderVocab(data){
+  const g=document.getElementById('vocab-grid');g.innerHTML='';
+  if(!data.length){g.innerHTML='<div class="no-results">No terms match your search.</div>';document.getElementById('vocab-count').textContent='';return}
+  document.getElementById('vocab-count').textContent=`Showing ${data.length} of ${terms.length} terms`;
+  data.forEach(t=>{
+    const cls=catMap[t.cat]||'cat-core';
+    g.innerHTML+=`<div class="vocab-card"><div class="card-head"><div class="card-term">${t.term}</div><span class="cat-tag ${cls}">${t.catLabel}</span></div><div class="card-body"><div class="def-label">Exact Definition</div><div class="def-text">${t.exact}</div><div class="def-label">Simple Definition</div><div class="def-text">${t.simple}</div><div class="example-block"><div class="def-label">Example</div><div class="def-text">${t.example}</div></div></div></div>`;
+  });
+}
+function filterCards(){const q=document.getElementById('search-input').value.toLowerCase();renderVocab(!q?terms:terms.filter(t=>[t.term,t.exact,t.simple,t.example,t.catLabel].some(s=>s.toLowerCase().includes(q))));}
+let answered=0,score=0;
+function renderQuiz(){
+  answered=0;score=0;updateScore();
+  const c=document.getElementById('quiz-container');c.innerHTML='';
+  questions.forEach(q=>{
+    const opts=q.options.map(o=>`<button class="opt-btn" onclick="answer(this,'${o.letter}','${q.correct}',${q.num})"><span class="opt-letter">${o.letter}.</span> ${o.text}</button>`).join('');
+    c.innerHTML+=`<div class="question-card" id="qcard-${q.num}"><div class="q-num">Question ${q.num} of 5</div><div class="q-scenario">${q.scenario}</div><div class="q-stem">${q.stem}</div><div class="options" id="opts-${q.num}">${opts}</div><div id="exp-${q.num}"></div></div>`;
+  });
+}
+function answer(btn,chosen,correct,qNum){
+  document.querySelectorAll(`#opts-${qNum} .opt-btn`).forEach(b=>{b.disabled=true;const l=b.querySelector('.opt-letter').textContent.replace('.','').trim();if(l===correct)b.classList.add('correct');});
+  if(chosen!==correct)btn.classList.add('wrong');else score++;
+  document.getElementById(`exp-${qNum}`).innerHTML=`<div class="explanation">${questions[qNum-1].explanation}</div>`;
+  answered++;updateScore();
+}
+function updateScore(){document.getElementById('score-display').textContent=score;document.getElementById('progress-fill').style.width=(answered/5*100)+'%';}
+function resetQuiz(){renderQuiz();}
+function switchTab(id,btn){document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active');}
+renderVocab(terms);renderQuiz();
+</script>
+</body>
+</html>
